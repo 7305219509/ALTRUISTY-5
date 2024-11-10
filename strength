@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+
+int main() {
+    const int trainees = 4;
+    const int rounds = 3;
+    vector<vector<int>> strength(rounds, vector<int>(trainees));
+    vector<double> avgStrength(trainees, 0.0);
+
+    // Input strength values
+    cout << "Enter the strength levels for 12 values (3 rounds for 4 trainees):" << endl;
+    for (int i = 0; i < rounds; ++i) {
+        for (int j = 0; j < trainees; ++j) {
+            cin >> strength[i][j];
+            if (strength[i][j] < 1 || strength[i][j] > 200) {
+                cout << "INVALID INPUT" << endl;
+                return 0;
+            }
+            avgStrength[j] += strength[i][j];
+        }
+    }
+
+    // Calculate average strength for each trainee
+    for (int i = 0; i < trainees; ++i) {
+        avgStrength[i] = round(avgStrength[i] / rounds);
+    }
+
+    // Find the maximum average strength
+    double maxAvgStrength = *max_element(avgStrength.begin(), avgStrength.end());
+
+    // Check if all trainees are unfit
+    if (maxAvgStrength < 100) {
+        cout << "All trainees are unfit" << endl;
+    } else {
+        // Output the strongest trainee(s)
+        cout << "Strongest Trainee(s):" << endl;
+        for (int i = 0; i < trainees; ++i) {
+            if (avgStrength[i] == maxAvgStrength) {
+                cout << "Trainee Number : " << i + 1 << endl;
+            }
+        }
+    }
+
+    return 0;
+}
